@@ -29,8 +29,8 @@ public class YearlyReport {
             for (String[] string: yearlyReportContent) {
                 for (int i=0; i<3; i++) {
                     System.out.print(string[i] + " | ");
-                    System.out.println();
                 }
+                System.out.println();
             }
             return true;
         }
