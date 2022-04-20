@@ -29,7 +29,7 @@ public class MonthlyReport {
             monthlyReportContent[j-1] = list;
         }
         System.out.println("Месячный отчет загружен.");
-        for (int i=0; i<3; i++) { //проверка загрузки, вывод инфы на экран
+        /*for (int i=0; i<3; i++) { //проверка загрузки, вывод инфы на экран
             ArrayList<String[]> mas = monthlyReportContent[i];
             for (String[] strings: mas) {
                 for (int j=0; j<4; j++) {
@@ -37,7 +37,7 @@ public class MonthlyReport {
                 }
             System.out.println();
             }
-        }
+        }*/
         return true;
     }
 
@@ -89,6 +89,43 @@ public class MonthlyReport {
         }
         if (comparison) {
             System.out.println("Ошибок нет.");
+        }
+    }
+
+    public void statistics() //статистика по месяцам
+    {
+        for (int i=0; i<3; i++) {
+            System.out.println(getMonthFromNumber(i+1));
+            int maxExp = 0;
+            String maxExpName = null;
+            int maxInc = 0;
+            String maxIncName = null;
+            for (String[] strings: monthlyReportContent[i]) {
+                if (strings[1].equals("TRUE") && Integer.parseInt(strings[2])*Integer.parseInt(strings[3])>maxExp) {
+                    maxExp = Integer.parseInt(strings[2])*Integer.parseInt(strings[3]);
+                    maxExpName = strings[0];
+                }
+                if (strings[1].equals("FALSE") && Integer.parseInt(strings[2])*Integer.parseInt(strings[3])>maxInc) {
+                    maxInc = Integer.parseInt(strings[2])*Integer.parseInt(strings[3]);
+                    maxIncName = strings[0];
+                }
+            }
+            System.out.println("Максимальная трата: " + maxExpName + " " + maxExp);
+            System.out.println("Самый прибыльный товар: " + maxIncName + " " + maxInc);
+        }
+    }
+
+    private String getMonthFromNumber(int number) //возвращает название месяца по номеру
+    {
+        switch (number) {
+            case 1:
+                return "Январь";
+            case 2:
+                return "Февраль";
+            case 3:
+                return "Март";
+            default:
+                return null;
         }
     }
 }

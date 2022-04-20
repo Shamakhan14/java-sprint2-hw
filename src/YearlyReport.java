@@ -11,9 +11,8 @@ public class YearlyReport {
         yearlyReportContent = new ArrayList<>();
     }
 
-    public boolean readYearlyReport(String pathToFolder)
+    public boolean readYearlyReport(String pathToFolder) //считывает годовой отчет
     {
-        //считывает годовой отчет
         //возвращает +/- если удалось/не удало3сь считать
         String path = pathToFolder + "y.2021.csv";
         String fileContents = readFileContentsOrNull(path);
@@ -26,12 +25,12 @@ public class YearlyReport {
                 yearlyReportContent.add(lineContents);
             }
             System.out.println("Годовой отчет загружен.");
-            for (String[] string: yearlyReportContent) {
+            /*for (String[] string: yearlyReportContent) {
                 for (int i=0; i<3; i++) {
                     System.out.print(string[i] + " | ");
                 }
                 System.out.println();
-            }
+            }*/
             return true;
         }
     }
@@ -48,5 +47,27 @@ public class YearlyReport {
 
     public ArrayList<String[]> getDataForComparison() {
         return yearlyReportContent;
+    }
+
+    public void statistics() //стптистика по годовому отчету
+    {
+        int totalInc = 0; //запись общего дохода
+        int totalExp = 0; //запись общего расхода
+        int[] profit = new int[3]; //массив прибыли, индекс - месяц
+        System.out.println("Рассматриваемый год: 2021");
+        for (String[] strings: yearlyReportContent) {
+            if (strings[2].equals("true")) {
+                totalExp += Integer.parseInt(strings[1]);
+                profit[Integer.parseInt(strings[0])-1] -= Integer.parseInt(strings[1]);
+            } else {
+                totalInc += Integer.parseInt(strings[1]);
+                profit[Integer.parseInt(strings[0])-1] += Integer.parseInt(strings[1]);
+            }
+        }
+        for (int i=1; i<4; i++) {
+            System.out.println("Прибыль за " + i + " месяц: " + profit[i-1]);
+        }
+        System.out.println("Средний расход за все месяцы в году: " + Math.round(totalExp/3));
+        System.out.println("Средний доход за все месяцы в году: " + Math.round(totalInc/3));
     }
 }

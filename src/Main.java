@@ -31,12 +31,12 @@ public class Main {
                         System.out.println("Невозможно выполнить команду. Сначала считайте отчеты.");
                     }
                     break;
-/*                case 4:
-
+                case 4:
+                    monthlyReport.statistics();
                     break;
                 case 5:
-
-                    break;*/
+                    yearlyReport.statistics();
+                    break;
                 default:
                     System.out.println("Такой команды нет. Повторите попытку");
                     break;
