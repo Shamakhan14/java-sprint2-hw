@@ -1,5 +1,3 @@
-import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
@@ -11,11 +9,11 @@ public class YearlyReport {
         yearlyReportContent = new ArrayList<>();
     }
 
-    public boolean readYearlyReport(String pathToFolder) //считывает годовой отчет
+    public boolean readYearlyReport() //считывает годовой отчет
     {
         //возвращает +/- если удалось/не удало3сь считать
-        String path = pathToFolder + "y.2021.csv";
-        String fileContents = readFileContentsOrNull(path);
+        Path path = Path.of("./resources", "y.2021.csv");
+        String fileContents = MonthlyReport.readFileContentsOrNull(path);
         String[] lines = fileContents.split(System.lineSeparator());
         if (lines[0].equals("null")) { //проверка считывания перед разбивкой на массив строк из одной большой строки
             return false;
@@ -25,23 +23,7 @@ public class YearlyReport {
                 yearlyReportContent.add(lineContents);
             }
             System.out.println("Годовой отчет загружен.");
-            /*for (String[] string: yearlyReportContent) {
-                for (int i=0; i<3; i++) {
-                    System.out.print(string[i] + " | ");
-                }
-                System.out.println();
-            }*/
             return true;
-        }
-    }
-
-    private String readFileContentsOrNull(String path) //метод из ТЗ для считывания файла
-    {
-        try {
-            return Files.readString(Path.of(path));
-        } catch (IOException e) {
-            System.out.println("Невозможно прочитать файл с годовым отчётом. Возможно, файл не находится в нужной директории.");
-            return "null";
         }
     }
 
@@ -49,7 +31,7 @@ public class YearlyReport {
         return yearlyReportContent;
     }
 
-    public void statistics() //стптистика по годовому отчету
+    public void statistics() //статистика по годовому отчету
     {
         int totalInc = 0; //запись общего дохода
         int totalExp = 0; //запись общего расхода

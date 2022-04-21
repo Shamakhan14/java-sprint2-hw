@@ -11,10 +11,10 @@ public class MonthlyReport {
         monthlyReportContent = new ArrayList[3];
     }
 
-    public boolean readMonthlyReport(String pathToFolder) //считывание отчета
+    public boolean readMonthlyReport() //считывание отчета
     {
         for (int j=1; j<4; j++) {
-            String path = pathToFolder + "m.20210" + j + ".csv";
+            Path path = Path.of("./resources", "m.20210" + j + ".csv");
             String fileContents = readFileContentsOrNull(path);
             String[] lines = fileContents.split(System.lineSeparator());
             ArrayList<String[]> list = new ArrayList<>(); //промежуточный список
@@ -29,22 +29,13 @@ public class MonthlyReport {
             monthlyReportContent[j-1] = list;
         }
         System.out.println("Месячный отчет загружен.");
-        /*for (int i=0; i<3; i++) { //проверка загрузки, вывод инфы на экран
-            ArrayList<String[]> mas = monthlyReportContent[i];
-            for (String[] strings: mas) {
-                for (int j=0; j<4; j++) {
-                    System.out.print(strings[j] + " | ");
-                }
-            System.out.println();
-            }
-        }*/
         return true;
     }
 
-    private String readFileContentsOrNull(String path) //метод для чтения файла из ТЗ
+    public static String readFileContentsOrNull(Path path) //метод для чтения файла из ТЗ
     {
         try {
-            return Files.readString(Path.of(path));
+            return Files.readString(path);
         } catch (IOException e) {
             System.out.println("Невозможно прочитать файл с месячным отчётом. Возможно, файл не находится в нужной директории.");
             return "null";
@@ -55,12 +46,12 @@ public class MonthlyReport {
     public void comparison(ArrayList<String[]> yearlyReportContent) //сравнение отчетов
     { //сравнение отчетов
         System.out.println("Несоответствия в следующих месяцах:");
-        int monthExpenses = 0; //расходы за месяц
-        int monthIncome = 0; //доходы за месяц
-        int yMonthExpenses = 0; //расходы согласно годовому отчету
-        int yMonthIncome = 0; //доходу согласно говодому отчету
         boolean comparison = true; //переменная для сравнения
         for (int i=1; i<4; i++) { //цикл по месяцам
+            int monthExpenses = 0; //расходы за месяц
+            int monthIncome = 0; //доходы за месяц
+            int yMonthExpenses = 0; //расходы согласно годовому отчету
+            int yMonthIncome = 0; //доходу согласно говодому отчету
             ArrayList<String[]> month1 = monthlyReportContent[i-1]; //считывание месяца
             for (int j=0; j<month1.size(); j++) { //цикл массиву строк
                 String[] month2 = month1.get(j);
@@ -82,10 +73,6 @@ public class MonthlyReport {
                 System.out.println(i);
                 comparison = false;
             }
-            monthExpenses = 0;
-            monthIncome = 0;
-            yMonthExpenses = 0;
-            yMonthIncome = 0;
         }
         if (comparison) {
             System.out.println("Ошибок нет.");
